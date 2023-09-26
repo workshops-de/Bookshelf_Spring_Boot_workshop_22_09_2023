@@ -1,12 +1,7 @@
 package de.workshops.bookshelf;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,57 +21,30 @@ import java.util.List;
 @Validated
 public class BookRestController {
 
-    private final ObjectMapper mapper;
+    private final BookService service;
 
-    private final ResourceLoader resourceLoader;
-
-    private List<Book> books;
-
-    public BookRestController(ObjectMapper mapper, ResourceLoader resourceLoader) {
-        this.mapper = mapper;
-        this.resourceLoader = resourceLoader;
-    }
-
-    @PostConstruct
-    public void init() throws Exception {
-        Resource resource = resourceLoader.getResource("classpath:books.json");
-        this.books = mapper.readValue(resource.getInputStream(), new TypeReference<>() {
-        });
+    public BookRestController(BookService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<Book> getAllBooks() {
-        return books;
+        return service.getAllBooks();
     }
 
     @GetMapping("/{isbn}")
     public Book getSingleBookByIsbn(@PathVariable String isbn) {
-        return this.books.stream()
-                .filter(book -> hasIsbn(book, isbn))
-                .findFirst().orElseThrow(() -> new BookNotFoundException("ISBN: " + isbn));
+        return service.getSingleBookByIsbn(isbn);
     }
 
     @GetMapping(params = "author")
     public Book searchBookByAuthor(@RequestParam @NotBlank @Size(min = 3) String author) {
-        return this.books.stream()
-                .filter(book -> hasAuthor(book, author))
-                .findFirst().orElseThrow();
+        return service.getSingleBookByAuthor(author);
     }
 
     @PostMapping("/search")
     public List<Book> searchBooks(@RequestBody BookSearchRequest searchRequest) {
-        return this.books.stream()
-                .filter(book -> searchRequest.getIsbn() == null || hasIsbn(book, searchRequest.getIsbn()))
-                .filter(book -> searchRequest.getAuthor() == null || hasAuthor(book, searchRequest.getAuthor()))
-                .toList();
-    }
-
-    private boolean hasIsbn(Book book, String isbn) {
-        return book.getIsbn().equals(isbn);
-    }
-
-    private boolean hasAuthor(Book book, String author) {
-        return book.getAuthor().contains(author);
+        return service.searchBooks(searchRequest);
     }
 
     @ExceptionHandler(BookNotFoundException.class)
