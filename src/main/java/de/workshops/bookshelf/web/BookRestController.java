@@ -1,5 +1,10 @@
-package de.workshops.bookshelf;
+package de.workshops.bookshelf.web;
 
+import de.workshops.bookshelf.config.BookshelfProperties;
+import de.workshops.bookshelf.domain.Book;
+import de.workshops.bookshelf.domain.BookNotFoundException;
+import de.workshops.bookshelf.domain.BookSearchRequest;
+import de.workshops.bookshelf.service.BookService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
@@ -23,8 +28,11 @@ public class BookRestController {
 
     private final BookService service;
 
-    public BookRestController(BookService service) {
+    private final BookshelfProperties bookshelfProperties;
+
+    public BookRestController(BookService service, BookshelfProperties bookshelfProperties) {
         this.service = service;
+        this.bookshelfProperties = bookshelfProperties;
     }
 
     @GetMapping
@@ -45,6 +53,12 @@ public class BookRestController {
     @PostMapping("/search")
     public List<Book> searchBooks(@RequestBody BookSearchRequest searchRequest) {
         return service.searchBooks(searchRequest);
+    }
+
+    @GetMapping("/{isbn}/lookup")
+    public String lookupIsbn(@PathVariable String isbn) {
+        return String.format("%s does a lookup for ISBN %s via %s",
+                bookshelfProperties.getOwner(), isbn, bookshelfProperties.getIsbnLookup().getServer());
     }
 
     @ExceptionHandler(BookNotFoundException.class)

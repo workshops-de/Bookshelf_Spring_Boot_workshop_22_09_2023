@@ -1,7 +1,8 @@
-package de.workshops.bookshelf;
+package de.workshops.bookshelf.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.workshops.bookshelf.domain.Book;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

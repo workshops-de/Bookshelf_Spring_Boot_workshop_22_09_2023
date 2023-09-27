@@ -1,5 +1,7 @@
-package de.workshops.bookshelf;
+package de.workshops.bookshelf.web;
 
+import de.workshops.bookshelf.domain.Book;
+import de.workshops.bookshelf.service.BookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

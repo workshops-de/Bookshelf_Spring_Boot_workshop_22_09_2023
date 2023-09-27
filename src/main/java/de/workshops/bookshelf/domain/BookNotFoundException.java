@@ -1,4 +1,4 @@
-package de.workshops.bookshelf;
+package de.workshops.bookshelf.domain;
 
 public class BookNotFoundException extends RuntimeException {
 

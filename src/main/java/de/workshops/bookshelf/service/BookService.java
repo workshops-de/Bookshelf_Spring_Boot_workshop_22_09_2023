@@ -1,5 +1,9 @@
-package de.workshops.bookshelf;
+package de.workshops.bookshelf.service;
 
+import de.workshops.bookshelf.domain.Book;
+import de.workshops.bookshelf.domain.BookNotFoundException;
+import de.workshops.bookshelf.domain.BookSearchRequest;
+import de.workshops.bookshelf.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
