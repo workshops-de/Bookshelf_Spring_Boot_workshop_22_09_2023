@@ -1,0 +1,24 @@
+application:
+  title: '@project.name@'
+  version: '@project.version@'
+
+bookshelf:
+  owner: Max Mustermann
+  isbn-lookup:
+    server: https://example.com/isbn
+    api-key: secret
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true

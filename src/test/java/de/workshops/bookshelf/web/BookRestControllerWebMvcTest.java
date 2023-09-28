@@ -1,5 +1,6 @@
 package de.workshops.bookshelf.web;
 
+import de.workshops.bookshelf.config.BookshelfProperties;
 import de.workshops.bookshelf.domain.Book;
 import de.workshops.bookshelf.service.BookService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ class BookRestControllerWebMvcTest {
 
     @MockBean
     BookService bookService;
+
+    @MockBean
+    BookshelfProperties bookshelfProperties;
 
     @Autowired
     MockMvc mvc;
