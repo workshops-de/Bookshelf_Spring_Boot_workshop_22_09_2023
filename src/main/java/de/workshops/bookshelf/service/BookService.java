@@ -18,23 +18,22 @@ public class BookService {
     }
 
     public List<Book> getAllBooks() {
-        return repository.findAllBooks();
+        return repository.findAll();
     }
 
     public Book getSingleBookByIsbn(String isbn) throws BookNotFoundException {
-        return repository.findAllBooks().stream()
-                .filter(book -> hasIsbn(book, isbn))
-                .findFirst().orElseThrow(() -> new BookNotFoundException("ISBN: " + isbn));
+        return repository.findByIsbn(isbn)
+                .orElseThrow(() -> new BookNotFoundException("ISBN: " + isbn));
     }
 
     public Book getSingleBookByAuthor(String author) throws BookNotFoundException {
-        return repository.findAllBooks().stream()
+        return repository.findAll().stream()
                 .filter(book -> hasAuthor(book, author))
                 .findFirst().orElseThrow(() -> new BookNotFoundException("Author: " + author));
     }
 
     public List<Book> searchBooks(BookSearchRequest searchRequest) {
-        return repository.findAllBooks().stream()
+        return repository.findAll().stream()
                 .filter(book -> searchRequest.getIsbn() == null || hasIsbn(book, searchRequest.getIsbn()))
                 .filter(book -> searchRequest.getAuthor() == null || hasAuthor(book, searchRequest.getAuthor()))
                 .toList();
