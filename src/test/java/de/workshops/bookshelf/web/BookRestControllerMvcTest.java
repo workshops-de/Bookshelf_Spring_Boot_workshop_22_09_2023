@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -33,6 +34,7 @@ class BookRestControllerMvcTest {
     ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void get_book_should_return_all_books() throws Exception {
         mvc.perform(get("/book"))
                 .andDo(print())
@@ -43,6 +45,7 @@ class BookRestControllerMvcTest {
     }
 
     @Test
+    @WithMockUser
     void get_book_should_still_return_all_books() throws Exception {
         MvcResult result = mvc.perform(get("/book"))
                 .andDo(print())

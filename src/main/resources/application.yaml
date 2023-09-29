@@ -10,11 +10,14 @@ bookshelf:
 
 spring:
   jpa:
-    defer-datasource-initialization: true
-    generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     open-in-view: false
   sql:
     init:
       mode: always
+
+management:
+  endpoint:
+    health:
+      show-details: always

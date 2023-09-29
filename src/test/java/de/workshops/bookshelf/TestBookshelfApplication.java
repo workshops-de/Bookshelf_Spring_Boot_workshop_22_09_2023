@@ -7,6 +7,7 @@ public class TestBookshelfApplication {
     public static void main(String[] args) {
         SpringApplication
                 .from(BookshelfApplication::main)
-                .with(PostgresContainerTestConfiguration.class).run(args);
+                .with(PostgresContainerTestConfiguration.class, MongoDbTestConfiguration.class)
+                .run(args);
     }
 }

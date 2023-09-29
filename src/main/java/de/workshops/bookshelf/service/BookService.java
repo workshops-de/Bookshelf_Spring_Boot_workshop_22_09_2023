@@ -4,6 +4,7 @@ import de.workshops.bookshelf.domain.Book;
 import de.workshops.bookshelf.domain.BookNotFoundException;
 import de.workshops.bookshelf.domain.BookSearchRequest;
 import de.workshops.bookshelf.repository.BookRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class BookService {
         return repository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Book getSingleBookByIsbn(String isbn) throws BookNotFoundException {
         return repository.findByIsbn(isbn)
                 .orElseThrow(() -> new BookNotFoundException("ISBN: " + isbn));
